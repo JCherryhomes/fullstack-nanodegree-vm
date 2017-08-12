@@ -17,9 +17,7 @@ def deleteMatches():
     """Remove all the match records from the database."""
     query = """
 UPDATE MatchWinners
-SET wins = 0, matches = 0; 
-DELETE FROM Matches; 
-DELETE FROM Tournaments;"""
+SET wins = 0, matches = 0;"""
     (cursor, connection) = connect()
     cursor.execute(query)
     connection.commit()

@@ -7,10 +7,7 @@
 -- these lines here.
 
 DROP TABLE IF EXISTS MatchWinners;
-DROP TABLE IF EXISTS Tournaments;
-DROP TABLE IF EXISTS Matches;
 DROP TABLE IF EXISTS Players;
-DROP DATABASE IF EXISTS tournament;
 
 CREATE DATABASE tournament;
 
@@ -19,19 +16,9 @@ CREATE TABLE Players (
     name text
 );
 
-CREATE TABLE Matches (
-    id serial,
-    player_one_id int,
-    player_two_id int
-);
-
 CREATE TABLE MatchWinners (
     id serial,
     wins int,
     matches int,
     player_id int
-);
-
-CREATE TABLE Tournaments (
-    id serial
 );
