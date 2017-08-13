@@ -12,13 +12,13 @@ DROP TABLE IF EXISTS Players;
 CREATE DATABASE tournament;
 
 CREATE TABLE Players (
-    id serial,
+    id serial PRIMARY KEY,
     name text
 );
 
 CREATE TABLE MatchWinners (
-    id serial,
+    id serial PRIMARY KEY,
     wins int,
     matches int,
-    player_id int
+    player_id int REFERENCES Players(id)
 );

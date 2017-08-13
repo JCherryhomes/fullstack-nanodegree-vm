@@ -3,39 +3,61 @@
 # tournament.py -- implementation of a Swiss-system tournament
 #
 
+import sys
 import psycopg2 as db
 
 
-def connect():
-    """Connect to the PostgreSQL database.  Returns a database connection and cursor."""
-    connection = db.connect("dbname=tournament")
-    cursor = connection.cursor()
-    return (cursor, connection)
+def connect(database_name="tournament"):
+    """Connect to the PostgreSQL database.  Returns a database connection.
+       Default connection is to the tournament database if no database is provided.
+    """
+    try:
+        connection = db.connect("dbname={}".format(database_name))
+        cursor = connection.cursor()
+        return cursor, connection
+    except connection.Error as error:
+        print "Unable to connect to database"
+        # THEN perhaps exit the program
+        sys.exit(1) # The easier method
+        # OR perhaps throw an error
+        raise error
+        # If you choose to raise an exception,
+        # It will need to be caught by the whoever called this function
 
+def execute_read(query, params=None):
+    """ Used to remove repetitive code from functions """
+    (cursor, connection) = connect()
+    if not params:
+        cursor.execute(query)
+    else:
+        cursor.execute(query, params)
+    return cursor, connection
+
+def execute_write(query, params=None):
+    """ Used to remove repetitive code from functions """
+    (cursor, connection) = connect()
+    if not params:
+        cursor.execute(query)
+    else:
+        cursor.execute(query, params)
+
+    connection.commit()
+    connection.close()
 
 def deleteMatches():
     """Remove all the match records from the database."""
-    query = """
-UPDATE MatchWinners
-SET wins = 0, matches = 0;"""
-    (cursor, connection) = connect()
-    cursor.execute(query)
-    connection.commit()
-    connection.close()
+    query = "UPDATE MatchWinners SET wins = 0, matches = 0;"
+    execute_write(query)
 
 def deletePlayers():
     """Remove all the player records from the database."""
-    query = "DELETE FROM Players;"
-    (cursor, connection) = connect()
-    cursor.execute(query)
-    connection.commit()
-    connection.close()
+    query = "DELETE FROM MatchWinners; DELETE FROM Players;"
+    execute_write(query)
 
 def countPlayers():
     """Returns the number of players currently registered."""
     query = "SELECT COUNT(name) FROM Players"
-    (cursor, connection) = connect()
-    cursor.execute(query)
+    (cursor, connection) = execute_read(query)
     count = cursor.fetchone()[0]
     if count is None:
         count = '0'
@@ -57,10 +79,7 @@ def registerPlayer(name):
     SELECT id, 0, 0 
     FROM Players 
     WHERE Players.id NOT IN (SELECT player_id FROM MatchWinners);'''
-    (cursor, connection) = connect()
-    cursor.execute(query, {'name':name,})
-    connection.commit()
-    connection.close()
+    execute_write(query, {'name':name,})
 
 
 def playerStandings():
@@ -76,14 +95,13 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
-    (cursor, connection) = connect()
     query = '''
     SELECT player_id, name, wins, matches 
     FROM MatchWinners 
     INNER JOIN Players
     ON Players.id = MatchWinners.player_id
     ORDER BY wins DESC;'''
-    cursor.execute(query)
+    (cursor, connection) = execute_read(query)
     results = cursor.fetchall()
     connection.close()
     return results
@@ -95,7 +113,6 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
-    (cursor, connection) = connect()
     query = """
 UPDATE MatchWinners
 SET wins = wins + 1,
@@ -106,9 +123,7 @@ UPDATE MatchWinners
 SET matches = Matches + 1
 WHERE player_ID = %(loser)s;
     """
-    cursor.execute(query, {'winner': winner, 'loser': loser})
-    connection.commit()
-    connection.close()
+    execute_write(query, {'winner': winner, 'loser': loser})
 
 
 def swissPairings():
