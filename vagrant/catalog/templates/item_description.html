@@ -1,0 +1,12 @@
+<div class="col-md-6">
+    <div class="item-description">
+        <h3>{{item.title}}</h3>
+        <p>{{item.description}}</p>
+    </div>
+    <form action="/category/{{category_id}}/items/{{item_id}}/delete" method="POST">
+        <div class="form-inline">
+            <a href="{{ url_for('showCategories', category_id= category_id, item_id=item_id, action='edit')}}">edit</a>
+            <button type="submit" class="btn btn-link" onclick="return confirm('Do you wish to delete this item?')"><span class="text-danger">delete</span></button>
+        </div>
+    </form>
+</div>

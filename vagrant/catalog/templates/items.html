@@ -1,0 +1,33 @@
+<div class="col-md-3">
+    <div class="item-list">
+        {% if category != None %}
+        <h3 style="padding-top: 0; margin-top: 0;">{{category.name}} ({{ items|length }} Items)</h3>
+        {% else %}
+        <h3 style="padding-top: 0; margin-top: 0;">Latest Items ({{ items|length }} Items)</h3>
+        {% endif %}
+        {% for item in items %}
+        <div class="item">
+            <a href="{{url_for('showCategories', category_id = category_id, item_id=item.id)}}">
+            {{item.title}} 
+            <span class="category_label">
+                ({{item.category.name}})
+            </span>
+                </a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="padding-top padding-bottom">
+        <a class="text-success" href="{{ url_for('showCategories', category_id= category_id, action='create')}}">new item</a>
+    </div>
+</div>
+{% if item == None and item_id > 0 %}
+    <h3>There is no entry that matches the selected category and item</h3>
+{% elif item != None and user != None  and action != 'edit' %}
+    {% include "item_description.html" %}
+{% elif item != None and user != None and action == 'edit' %}
+    {% include "edititem.html" %}
+{% elif user != None and action == 'create' %}
+    {% include "newitem.html" %}
+{% else %}
+    {% include "public_item_description.html" %}
+{% endif %} 
