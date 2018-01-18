@@ -11,6 +11,7 @@
     <div class="container-fluid">
         <nav class="navbar">
             <a href="#" class="navbar-brand">Map Project</a>
+            <a href="https://www.flickr.com" target="_blank"><span class="pull-right small">Images from Flickr</span></a>
         </nav>
         <div class="row">
             <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
@@ -41,12 +42,12 @@
         </div>
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4L_FmnQBGjZPvBu9f5PhwhEjKjclBYq4" type="text/javascript"></script>
     <script src="node_modules\knockout\build\output\knockout-latest.js"></script>
     <script src="node_modules\jquery\dist\jquery.js"></script>
     <script src="node_modules\underscore\underscore.js"></script>
     <script src="node_modules\bootstrap\dist\js\bootstrap.js"></script>
-    <script async defer src="js\main.js"></script>
+    <script src="js\main.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4L_FmnQBGjZPvBu9f5PhwhEjKjclBYq4&callback=googleSuccess" onerror="googleError()" type="text/javascript"></script>
 </body>
 
 </html>

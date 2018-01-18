@@ -2,16 +2,20 @@ body {
     height: 100%;
     width: 100%;
 }
+
 .content {
     background-color: #2c2c2c;
     height: 100% !important;
 }
+
 .list {
     list-style: none;
 }
+
 #map {
     height: 400px;
 }
+
 #details {
     color: #c2c2c2;
 }
@@ -19,12 +23,15 @@ body {
 #details>img {
     margin: 5px !important;
 }
+
 .title {
     color: #c2c2c2;
 }
+
 .pointer {
     cursor: pointer;
 }
+
 #details.img-thumbnail {
     max-height: 240px !important;
     max-width: 240px !important;

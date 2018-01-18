@@ -1,8 +1,10 @@
-var google =
-  google ||
-  (function() {
-    console.error("Google Map API Not Loaded");
-  })();
+var map = null;
+
+// Should be called if there is a problem loading the google API
+function googleError() {
+  window.alert("Google Maps API could not be loaded at this time");
+  console.error("Google Map API Not Loaded");
+}
 
 // Callback function for flickr api request
 function jsonFlickrFeed(json) {
@@ -53,15 +55,6 @@ var locations = [
 
 var photos = [];
 
-// Map Center
-var uluru = { lat: locations[0].lat, lng: locations[0].lng };
-
-// Global instance of the google map
-var map = new google.maps.Map(document.getElementById("map"), {
-  zoom: 12,
-  center: uluru
-});
-
 function LocationsViewModel() {
   var self = this;
 
@@ -78,7 +71,8 @@ function LocationsViewModel() {
     if (self.filter().length > 0) {
       return ko.utils.arrayFilter(locations, function(location) {
         return (
-          location.name.toLowerCase().indexOf(self.filter().toLowerCase()) >= 0
+          location.name.toLowerCase().indexOf(self.filter().toLowerCase()) >=
+          0
         );
       });
     } else {
@@ -125,7 +119,6 @@ function LocationsViewModel() {
       infoWindow.close();
     }
 
-    // Remove existing photos
     self.photos.removeAll();
 
     self.selectedTitle(location.searchTerm);
@@ -149,6 +142,7 @@ function LocationsViewModel() {
         content: location.searchTerm
       });
 
+      // Add animation and infoWindow to the selected marker
       _.forEach(self.markers, function(marker) {
         marker.setAnimation(null);
 
@@ -173,10 +167,22 @@ function LocationsViewModel() {
   self.updateMap();
 }
 
-var VM = new LocationsViewModel();
-ko.applyBindings(VM);
+// Called when the google map API successfully loads
+function googleSuccess() {
+  // Map Center
+  var uluru = { lat: locations[0].lat, lng: locations[0].lng };
 
-// subscribe to the filter object to call updateMap when filter changes
-VM.filter.subscribe(function() {
-  VM.updateMap();
-});
+  // Global instance of the google map
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 12,
+    center: uluru
+  });
+
+  var VM = new LocationsViewModel();
+  ko.applyBindings(VM);
+
+  // subscribe to the filter object to call updateMap when filter changes
+  VM.filter.subscribe(function() {
+    VM.updateMap();
+  });
+}
