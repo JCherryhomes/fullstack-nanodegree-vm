@@ -17,6 +17,15 @@ function jsonFlickrFeed(json) {
   });
 }
 
+function flickrError (xhr, error) {
+  // Error callback is being called on all responses due to being a CORS request
+  // Do not display error if we have a 200 status
+  if (xhr.status !== 200) {
+    alert("Flickr images could not be loaded at this time.");
+    console.error("Flickr Error", xhr);
+  }
+}
+
 // Store a single instance of an infoWindow object
 var infoWindow = null;
 
@@ -130,7 +139,9 @@ function LocationsViewModel() {
         tags: location.searchTerm,
         api_key: flickr.key,
         format: "json"
-      }
+      },
+      error: flickrError,
+      success: jsonFlickrFeed
     }).always(function() {
       // After request completes load photos obtained in the
       // callback function into the observable array
