@@ -73,10 +73,7 @@ function LocationsViewModel() {
   self.filteredLocations = ko.computed(function() {
     if (self.filter().length > 0) {
       return ko.utils.arrayFilter(locations, function(location) {
-        return (
-          location.name.toLowerCase().indexOf(self.filter().toLowerCase()) >=
-          0
-        );
+        return (location.name.toLowerCase().indexOf(self.filter().toLowerCase()) >= 0);
       });
     } else {
       return locations;
