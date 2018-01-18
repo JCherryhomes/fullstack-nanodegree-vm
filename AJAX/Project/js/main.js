@@ -104,9 +104,7 @@ function LocationsViewModel() {
           location: location
         });
 
-        marker.addListener("click", function() {
-          self.loadImages(this.location);
-        });
+        marker.addListener("click", self.loadImages);
 
         self.markers.push(marker);
       }
@@ -114,7 +112,14 @@ function LocationsViewModel() {
   };
 
   // Load images from flickr for the selected marker
-  self.loadImages = function(location) {
+  self.loadImages = function() {
+    // if "this" has a location property use that, otherwise "this" is the location object.
+    var location = this.location || this;
+
+    if (!location) {
+      console.error("Location object not available");
+    }
+
     // Close infoWindow if it exists
     if (infoWindow) {
       infoWindow.close();
