@@ -44,7 +44,10 @@ var locations = [
     name: "Botanic Gardens",
     searchTerm: "Fort Worth Botanic Gardens"
   },
-  { lat: 32.722969, lng: -97.35669, name: "Zoo", searchTerm: "Fort Worth Zoo" },
+  { lat: 32.722969, 
+    lng: -97.35669, 
+    name: "Zoo", 
+    searchTerm: "Fort Worth Zoo" },
   {
     lat: 32.744213,
     lng: -97.369307,
