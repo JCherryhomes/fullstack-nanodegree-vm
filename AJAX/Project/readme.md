@@ -1,7 +1,7 @@
 # Front-end & AJAX Project
 
 ## Setup
-Load 3rd party files using node: ```node install```
+Load 3rd party files using node: ```npm install```
 
 ## Running the Application
 You can run the project using node: ```node server.js```
