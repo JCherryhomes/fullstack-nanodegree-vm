@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="css\main.css" rel="stylesheet" type="text/css" />
+    <link href="node_modules\bootstrap\dist\css\bootstrap.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="content">
+    <div class="container-fluid">
+        <nav class="navbar">
+            <a href="#" class="navbar-brand">Map Project</a>
+        </nav>
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                <div class="card">
+                    <div class="card-header">
+                        <input placeholder="type to filter" type="text" class="form-control" data-bind="value: filter, valueUpdate: 'afterkeydown'" />
+                    </div>
+                    <div class="card-body">
+                        <ul data-bind="foreach: filteredLocations()" class="list-group list-group-flush">
+                            <li class="list-group-item pointer" data-bind="text: name, click: $parent.loadImages"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                <div class="panel">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="details">
+        <h3 data-bind="text: selectedTitle" class="title"></h3>
+            <div class="row" data-bind="foreach: photos">
+                <div class="col-lg-3">
+                    <img data-bind="attr: {src: src}" class="img-thumbnail" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4L_FmnQBGjZPvBu9f5PhwhEjKjclBYq4" type="text/javascript"></script>
+    <script src="node_modules\knockout\build\output\knockout-latest.js"></script>
+    <script src="node_modules\jquery\dist\jquery.js"></script>
+    <script src="node_modules\underscore\underscore.js"></script>
+    <script src="node_modules\bootstrap\dist\js\bootstrap.js"></script>
+    <script async defer src="js\main.js"></script>
+</body>
+
+</html>
