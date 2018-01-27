@@ -15,6 +15,11 @@
 80
 ```
 
+#### Grader Password
+```
+udacity
+```
+
 #### Web Application Link
 
 [Web Application (http://18.218.232.136)](http://18.218.232.136)
@@ -34,3 +39,4 @@
 
 #### Additional Notes
 - I am running into an issue where I keep having to restart the apache2 service so if you go to the web site and it is not working then the service probably needs to be restarted
+- Login functionality for the web site is not working due to facebook API requiring a domain. It will not allow me to use an IP address.
